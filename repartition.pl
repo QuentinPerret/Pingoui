@@ -1,6 +1,5 @@
 % Retrieve pinguins from pinguin.pl file
-:- initialization(main).
-main :- write('\nLoading pinguin.pl file ...\n'),
+?-  write('\nLoading pinguin.pl file ...\n'),
         consult('pinguin.pl'),
         write('Loading Done !\n').
         
@@ -35,8 +34,8 @@ display_groups([Group | RestGroups]) :-
 
 display_pinguins([]).
 display_pinguins([P | RestPinguins]) :-
-    pinguin(P, Num, Nom, Taille, Poids, Sexe, Niveau, Position),
-    write('  Pinguin '), write(Num), write(': '),
+    pinguin(P, Nom, Taille, Poids, Sexe, Niveau, Position),
+    write('  Pinguin '), write(P), write(': '),
     write('Nom: '), write(Nom), write(', '),
     write('Taille: '), write(Taille), write(', '),
     write('Poids: '), write(Poids), write(', '),
@@ -48,3 +47,5 @@ display_pinguins([P | RestPinguins]) :-
 % create_all_groups(AllGroups, 5), display_groups(AllGroups).
 
 % create_all_groups(AllGroups,5).
+
+?- create_all_groups(AllGroups, 5), display_groups(AllGroups).
