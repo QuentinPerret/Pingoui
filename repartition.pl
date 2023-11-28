@@ -4,14 +4,17 @@ main :- write('\nLoading pinguin.pl file ...\n'),
         consult('pinguin.pl'),
         write('Loading Done !\n').
 
-group_pinguin(Pinguins,N) :- 
-    findall(P, pinguin(P,_,_,_,_,_,_), ListPinguins),
-    group(ListPinguins,N,Pinguins).
+group_pinguin(Pinguins,N,Sexe) :- 
+    findall(P, pinguin(P,_,_,_,Sexe,_,_), ListPinguins),
+    random_permutation(ListPinguins, RandomList),
+    group(RandomList,N,Pinguins,Sexe).
 
-group([], _, []).
-group(List , N,  [Group | Groups]) :-
+group([],_,[],_).
+group(List , N,  [Group | Groups], Sexe) :-
     length(Group , N),
     append(Group , Rest , List),
-    group(Rest , N , Groups).
+    group(Rest , N , Groups , Sexe).
 
-%group_pinguin(Groups,5).
+
+sex_is(Sexe,P) :- pinguin(P,_,_,_,Sexe,_,_).
+%group_pinguin(Groups,5,female).

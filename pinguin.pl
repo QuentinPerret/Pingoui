@@ -195,6 +195,6 @@ pinguin(193,'Tiffany',64,464,female,3,5).
 pinguin(194,'Betty',65,616,female,3,5).
 pinguin(195,'Joni',65,371,female,2,6).
 pinguin(196,'Natasha',35,597,female,3,6).
-pinguin(197,'Addie',44,469,female,1,3).
-pinguin(198,'Kara',28,758,female,1,2).
+% pinguin(197,'Addie',44,469,female,1,3).
+% pinguin(198,'Kara',28,758,female,1,2).
 pinguin(199,'Brian',68,405,male,2,1).
