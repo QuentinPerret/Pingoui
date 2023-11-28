@@ -14,5 +14,8 @@ group(List , N,  [Group | Groups], Sexe) :-
     length(Group , N),
     append(Group , Rest , List),
     group(Rest , N , Groups , Sexe).
-
+group(List , N , [List] , _) :-
+    length(List,LengthList),
+    LengthList > 0,
+    LengthList < N.
 %group_pinguin(Groups,5,female).
