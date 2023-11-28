@@ -15,6 +15,4 @@ group(List , N,  [Group | Groups], Sexe) :-
     append(Group , Rest , List),
     group(Rest , N , Groups , Sexe).
 
-
-sex_is(Sexe,P) :- pinguin(P,_,_,_,Sexe,_,_).
 %group_pinguin(Groups,5,female).
