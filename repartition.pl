@@ -3,6 +3,7 @@
 main :- write('\nLoading pinguin.pl file ...\n'),
         consult('pinguin.pl'),
         write('Loading Done !\n').
+        
 
 group_pinguin(Pinguins,N,Sexe) :- 
     findall(P, pinguin(P,_,_,_,Sexe,_,_), ListPinguins),
@@ -18,4 +19,10 @@ group(List , N , [List] , _) :-
     length(List,LengthList),
     LengthList > 0,
     LengthList < N.
-%group_pinguin(Groups,5,female).
+
+create_all_groups(AllGroups , N) :-
+    group_pinguin(FemaleGroups,N,female),
+    group_pinguin(MaleGroups,N,male),
+    append(FemaleGroups,MaleGroups,AllGroups).
+
+% create_all_groups(AllGroups,5).
