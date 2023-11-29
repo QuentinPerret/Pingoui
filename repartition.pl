@@ -1,7 +1,7 @@
 % Retrieve pinguins from pinguin.pl file
-?-  write('\nLoading pinguin.pl file ...\n'),
-        consult('pinguin.pl'),
-        write('Loading Done !\n').
+?- write('\nLoading pinguin.pl file ...\n'),
+   consult('pinguin.pl'),
+   write('Loading Done !\n').
 
 % Calcul de l'IMC
 calculate_imc(Poids, Taille, IMC) :-
@@ -18,29 +18,47 @@ group(List, N, [List], _) :-
     LengthList > 0,
     LengthList < N.
 
-% Groupe par IMC
-group_pinguin_imc(Pinguins, N, Sexe, IMCRange1, IMCRange2) :-
+% Groupe par niveau
+group_pinguin_niveau(Pinguins, N, Sexe, Niveau, Groups) :-
     findall(P, (
-        pinguin(P, _, Taille, Poids, Sexe, _, _),
+        pinguin(P, _, _, _, Sexe, Niveau, _)
+    ), ListPinguins),
+    random_permutation(ListPinguins, RandomList),
+    group(RandomList, N, Groups, Sexe).
+
+% Groupe par IMC et niveau
+group_pinguin_imc_niveau(Pinguins, N, Sexe, IMCRange1, IMCRange2, Niveau) :-
+    group_pinguin_niveau(Pinguins, N, Sexe, Niveau, LevelGroups),
+    findall(P, (
+        member(Group, LevelGroups),
+        member(P, Group),
+        pinguin(P, _, Taille, Poids, _, _, _),
         calculate_imc(Poids, Taille, IMC),
         IMC >= IMCRange1, IMC =< IMCRange2
     ), ListPinguins),
     random_permutation(ListPinguins, RandomList),
     group(RandomList, N, Pinguins, Sexe).
 
-
-% Création des groupes par IMC
-create_all_groups_imc(AllGroups, N) :-
-    create_groups_by_imc(N, female, AllFemaleGroups),
-    create_groups_by_imc(N, male, AllMaleGroups),
+% Création des groupes par IMC et niveau
+create_all_groups_imc_niveau(AllGroups, N) :-
+    create_groups_by_imc_niveau(N, female, AllFemaleGroups),
+    create_groups_by_imc_niveau(N, male, AllMaleGroups),
     append(AllFemaleGroups, AllMaleGroups, AllGroups).
 
-create_groups_by_imc(N, Sexe, AllGroups) :-
-    findall(Group, group_pinguin_imc(Group, N, Sexe, 0, 1), LowImcGroups),
-    findall(Group, group_pinguin_imc(Group, N, Sexe, 1, 1.5), MediumImcGroups),
-    findall(Group, group_pinguin_imc(Group, N, Sexe, 1.5, 999), HighImcGroups),
-    append([LowImcGroups, MediumImcGroups, HighImcGroups], AllGroups).
-
+create_groups_by_imc_niveau(N, Sexe, AllGroups) :-
+    findall(Group, group_pinguin_imc_niveau(Group, N, Sexe, 0, 1, 1), LowImcGroups),
+    findall(Group, group_pinguin_imc_niveau(Group, N, Sexe, 1, 1.5, 1), MediumImcGroups),
+    findall(Group, group_pinguin_imc_niveau(Group, N, Sexe, 1.5, 999, 1), HighImcGroups),
+    
+    findall(Group, group_pinguin_imc_niveau(Group, N, Sexe, 0, 1, 2), LowImcGroups2),
+    findall(Group, group_pinguin_imc_niveau(Group, N, Sexe, 1, 1.5, 2), MediumImcGroups2),
+    findall(Group, group_pinguin_imc_niveau(Group, N, Sexe, 1.5, 999, 2), HighImcGroups2),
+    
+    findall(Group, group_pinguin_imc_niveau(Group, N, Sexe, 0, 1, 3), LowImcGroups3),
+    findall(Group, group_pinguin_imc_niveau(Group, N, Sexe, 1, 1.5, 3), MediumImcGroups3),
+    findall(Group, group_pinguin_imc_niveau(Group, N, Sexe, 1.5, 999, 3), HighImcGroups3),
+    
+    append([LowImcGroups, MediumImcGroups, HighImcGroups, LowImcGroups2, MediumImcGroups2, HighImcGroups2, LowImcGroups3, MediumImcGroups3, HighImcGroups3], AllGroups).
 
 % Affichage des groupes
 display_groups_imc([]).
@@ -67,9 +85,9 @@ display_pinguins([P | RestPinguins]) :-
     write('Poids: '), write(Poids), write(', '),
     write('Sexe: '), write(Sexe), write(', '),
     write('Niveau: '), write(Niveau), write(', '),
-    write('Position: '), write(Position),write(', '),
+    write('Position: '), write(Position), nl,
     write('IMC: '), write(IMC), nl,
     display_pinguins(RestPinguins).
 
 % Utilisation du nouveau code
-?- create_all_groups_imc(AllGroups, 5), display_groups_imc(AllGroups).
+?- create_all_groups_imc_niveau(AllGroups, 5), display_groups_imc(AllGroups).

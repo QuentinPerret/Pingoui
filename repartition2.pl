@@ -23,8 +23,40 @@ group_pinguin_niveau(Pinguins, N, Sexe, Niveau, Groups) :-
     findall(P, (
         pinguin(P, _, _, _, Sexe, Niveau, _)
     ), ListPinguins),
-    random_permutation(ListPinguins, RandomList),
+
+    % Récupérer le niveau précédent
+    PrecedentNiveau is Niveau - 1,
+
+    % Récupérer la liste de pingouins du niveau précédent
+    findall(PrecedentP, (
+        pinguin(PrecedentP, _, _, _, Sexe, PrecedentNiveau, Position),
+        % Assurer que les pingouins du niveau précédent sont en position 1
+        Position = 1
+    ), ListPrecedentPinguins),
+
+    % Diviser la liste du niveau précédent en sous-listes pour chaque groupe
+    length(ListPinguins, Len),
+    length(ListPrecedentPinguins, LenPrecedent),
+    ExtraPrecedent is Len - LenPrecedent,
+    length(ExtraPrecedentList, ExtraPrecedent),
+    append(ListPrecedentPinguins, ExtraPrecedentList, FullPrecedentList),
+    split_list(FullPrecedentList, N, SplitPrecedentLists),
+
+    % Fusionner les listes du niveau actuel et du niveau précédent
+    append(ListPinguins, SplitPrecedentLists, ListPinguinsWithPrecedent),
+
+    % Permuter aléatoirement la liste combinée
+    random_permutation(ListPinguinsWithPrecedent, RandomList),
+
+    % Grouper les pingouins en utilisant la règle de base
     group(RandomList, N, Groups, Sexe).
+
+% Prédicat pour diviser une liste en sous-listes de taille N
+split_list([], _, []).
+split_list(List, N, [Sublist | Rest]) :-
+    append(Sublist, RestList, List),
+    length(Sublist, N),
+    split_list(RestList, N, Rest).
 
 % Groupe par IMC et niveau
 group_pinguin_imc_niveau(Pinguins, N, Sexe, IMCRange1, IMCRange2, Niveau) :-
@@ -67,6 +99,7 @@ display_groups_imc([Groups | RestGroups]) :-
     display_groups_by_imc(Groups),
     display_groups_imc(RestGroups).
 
+% Affichage des groupes par IMC
 display_groups_by_imc([]).
 display_groups_by_imc([Group | RestGroups]) :-
     nl,
