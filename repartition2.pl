@@ -18,10 +18,11 @@ group(List, N, [List], _) :-
     LengthList > 0,
     LengthList < N.
 
-% Groupe par niveau
+% Groupe par niveau en prenant en compte la position
 group_pinguin_niveau(Pinguins, N, Sexe, Niveau, Groups) :-
     findall(P, (
-        pinguin(P, _, _, _, Sexe, Niveau, _)
+        pinguin(P, _, _, _, Sexe, Niveau, Position),
+        (Niveau < 3, Position > 1 ; Niveau = 3, Position = 1) % Vérification de la position pour ajuster le niveau
     ), ListPinguins),
     random_permutation(ListPinguins, RandomList),
     group(RandomList, N, Groups, Sexe).
