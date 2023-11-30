@@ -54,7 +54,8 @@ group_pinguin_imc_niveau(Pinguins, N, Sexe, IMCRange1, IMCRange2, Niveau) :-
 create_all_groups_imc_niveau(AllGroups, N) :-
     create_groups_by_imc_niveau(N, female, AllFemaleGroups),
     create_groups_by_imc_niveau(N, male, AllMaleGroups),
-    append(AllFemaleGroups, AllMaleGroups, AllGroups).
+    append(AllFemaleGroups, AllMaleGroups, ComplexAllGroups),
+    append(ComplexAllGroups,AllGroups).
 
 create_groups_by_imc_niveau(N, Sexe, AllGroups) :-
     findall(Group, group_pinguin_imc_niveau(Group, N, Sexe, 0, 1, 1), LowImcGroups),
@@ -72,18 +73,18 @@ create_groups_by_imc_niveau(N, Sexe, AllGroups) :-
     append([LowImcGroups, MediumImcGroups, HighImcGroups, LowImcGroups2, MediumImcGroups2, HighImcGroups2, LowImcGroups3, MediumImcGroups3, HighImcGroups3], AllGroups).
 
 % Affichage des groupes
-display_groups_imc([]).
-display_groups_imc([Groups | RestGroups]) :-
+display_all_groups([]).
+display_all_groups([Groups | RestGroups]) :-
     nl,
-    display_groups_by_imc(Groups),
-    display_groups_imc(RestGroups).
+    display_group_informations(Groups),
+    display_all_groups(RestGroups).
 
-display_groups_by_imc([]).
-display_groups_by_imc([Group | RestGroups]) :-
+    display_group_informations([]).
+display_group_informations([Group | RestGroups]) :-
     nl,
     write('Group: '), write(Group), nl,
     display_pinguins(Group),
-    display_groups_by_imc(RestGroups).
+    display_group_informations(RestGroups).
 
 % Affichage des pingouins
 display_pinguins([]).
@@ -101,4 +102,5 @@ display_pinguins([P | RestPinguins]) :-
     display_pinguins(RestPinguins).
 
 % Utilisation du nouveau code
-% ?- create_all_groups_imc_niveau(AllGroups, 5), display_groups_imc(AllGroups).
+% ?- create_all_groups_imc_niveau(AllGroups, 5), display_all_groups(AllGroups).
+% ?- create_all_groups_imc_niveau(AllGroups, 5),print(AllGroups).
