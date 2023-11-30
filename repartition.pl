@@ -101,4 +101,4 @@ display_pinguins([P | RestPinguins]) :-
     display_pinguins(RestPinguins).
 
 % Utilisation du nouveau code
-?- create_all_groups_imc_niveau(AllGroups, 5), display_groups_imc(AllGroups).
+% ?- create_all_groups_imc_niveau(AllGroups, 5), display_groups_imc(AllGroups).
