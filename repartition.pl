@@ -85,7 +85,7 @@ display_pinguins([P | RestPinguins]) :-
     write('Poids: '), write(Poids), write(', '),
     write('Sexe: '), write(Sexe), write(', '),
     write('Niveau: '), write(Niveau), write(', '),
-    write('Position: '), write(Position), nl,
+    write('Position: '), write(Position), write(', '),
     write('IMC: '), write(IMC), nl,
     display_pinguins(RestPinguins).
 
