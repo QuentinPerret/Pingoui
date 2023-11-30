@@ -21,10 +21,21 @@ group(List, N, [List], _) :-
 % Groupe par niveau
 group_pinguin_niveau(Pinguins, N, Sexe, Niveau, Groups) :-
     findall(P, (
-        pinguin(P, _, _, _, Sexe, Niveau, _)
+        pinguin(P, _, _, _, Sexe, Niveau, LastPosition),
+        \+ has_won_last_race(P, LastPosition)
     ), ListPinguins),
-    random_permutation(ListPinguins, RandomList),
+    findall(P, (
+        pinguin(P, _, _, _, Sexe, NextLevel, LastPosition),
+        has_won_last_race(P, LastPosition),
+        NextLevel is Niveau + 1
+    ), WinnerPinguins),
+    append(ListPinguins, WinnerPinguins, AllPinguins),
+    random_permutation(AllPinguins, RandomList),
     group(RandomList, N, Groups, Sexe).
+
+has_won_last_race(P, LastPosition) :-
+    LastPosition = 1,
+    pinguin(P, _, _, _, _, _, _).
 
 % Groupe par IMC et niveau
 group_pinguin_imc_niveau(Pinguins, N, Sexe, IMCRange1, IMCRange2, Niveau) :-
