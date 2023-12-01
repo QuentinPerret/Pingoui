@@ -1,7 +1,5 @@
 # Pingoui Project
 
-[Description du projet]
-
 
 Notre sujet a pour objectif de répartir une population de pingouins dans le but d'organiser un tournoi de glissade sur la banquise du Pôle Nord. 
 
