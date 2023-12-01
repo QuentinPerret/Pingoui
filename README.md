@@ -12,3 +12,5 @@ De plus, il y a 3 pistes de glissade, qui ont des difficultés différentes. Les
 L’objectif de ce projet est donc de réaliser cette répartition en Prolog.
 
 Projet réalisé par les étudiants de l'ENSC [ROCHE Eléa](https://github.com/elroche) et [PERRET Quentin](https://github.com/QuentinPerret)
+
+Un rapport détaillant le choix du projet, sa mise en place et une explication du code proposé est disponnible au [lien suivant](https://github.com/QuentinPerret/Pingoui/blob/main/Rapport.pdf)
