@@ -44,5 +44,5 @@ distribute_groups_on_slopes([Group | RestGroups]) :-
     distribute_groups_on_slopes(RestGroups).
 
 % Code to use in a prolog terminal
-?- display_slopes(),nl.
-?- create_all_groups_bmi_level(AllGroups, 6), distribute_groups_on_slopes(AllGroups).
+% ?- display_slopes(),nl.
+% ?- create_all_groups_bmi_level(AllGroups, 6), distribute_groups_on_slopes(AllGroups).
